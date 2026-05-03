@@ -15,6 +15,7 @@ const characterModal = document.getElementById("character-modal");
 const openCharacterModalButton = document.getElementById("open-character-modal");
 const closeCharacterModalButton = document.getElementById("close-character-modal");
 const overlayCharacterButton = document.getElementById("overlay-character-button");
+const body = document.body;
 const touchState = {
   startX: 0,
   startY: 0,
@@ -231,12 +232,17 @@ function closeCharacterModal() {
   characterModal.classList.add("hidden");
 }
 
+function syncScrollLock() {
+  body.classList.toggle("game-running", state.status === "running");
+}
+
 function startGame() {
   resetRun();
   state.status = "running";
   startOverlay.classList.add("hidden");
   gameoverOverlay.classList.add("hidden");
   closeCharacterModal();
+  syncScrollLock();
 }
 
 function endGame() {
@@ -247,6 +253,7 @@ function endGame() {
   gameoverTitle.textContent = `${currentCharacter().label}의 러닝 종료`;
   gameoverScore.textContent = `점수 ${Math.floor(state.score)}`;
   gameoverOverlay.classList.remove("hidden");
+  syncScrollLock();
 }
 
 function currentCharacter() {
@@ -878,6 +885,12 @@ function handleTouchEnd(event) {
   }
 }
 
+function handleTouchMove(event) {
+  if (state.status === "running") {
+    event.preventDefault();
+  }
+}
+
 function loop(timestamp) {
   if (!state.lastTime) {
     state.lastTime = timestamp;
@@ -904,11 +917,13 @@ characterModal.addEventListener("click", (event) => {
 window.addEventListener("keydown", handleKeydown);
 canvas.addEventListener("touchstart", handleTouchStart, { passive: true });
 canvas.addEventListener("touchend", handleTouchEnd, { passive: true });
+canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
 
 bestScoreLabel.textContent = String(state.bestScore);
 prepareCharacterImages();
 renderCharacterCards();
 renderSelectedCharacterCard();
 resetPlayer();
+syncScrollLock();
 drawScene();
 requestAnimationFrame(loop);
