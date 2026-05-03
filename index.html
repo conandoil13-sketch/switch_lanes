@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Switch Lanes</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hud">
+        <div>
+          <p class="eyebrow">Snake Rush</p>
+          <h1>Switch Lanes</h1>
+        </div>
+        <div class="hud-actions">
+          <div class="hud-stats">
+            <div class="stat-card">
+              <span>점수</span>
+              <strong id="score">0</strong>
+            </div>
+            <div class="stat-card">
+              <span>최고 기록</span>
+              <strong id="best-score">0</strong>
+            </div>
+          </div>
+          <button class="ghost-button" id="open-character-modal">캐릭터 변경</button>
+        </div>
+      </header>
+
+      <main class="game-layout">
+        <section class="panel stage-panel">
+          <canvas id="game" width="540" height="960" aria-label="Switch Lanes game"></canvas>
+          <div class="stage-footer">
+            <div class="selected-character-card" id="selected-character-card"></div>
+            <button class="primary-button stage-start-button" id="start-button">게임 시작</button>
+          </div>
+          <p class="panel-note stage-note">
+            방향키 또는 A/D로 레인 이동, 위/W/스페이스로 점프, 아래/S로 슬라이드
+          </p>
+          <div class="overlay" id="start-overlay">
+            <div class="overlay-card">
+              <p class="eyebrow">Ready</p>
+              <h2>달릴 캐릭터를 고르세요</h2>
+              <p>서브웨이서퍼처럼 노선을 바꾸며 내려오는 뱀을 피하세요.</p>
+              <button class="primary-button overlay-button" id="overlay-character-button">캐릭터 고르기</button>
+            </div>
+          </div>
+          <div class="overlay hidden" id="gameover-overlay">
+            <div class="overlay-card">
+              <p class="eyebrow">Game Over</p>
+              <h2 id="gameover-title">뱀에게 막혔습니다</h2>
+              <p id="gameover-score">점수 0</p>
+              <button class="primary-button" id="restart-button">다시 달리기</button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="modal-backdrop hidden" id="character-modal">
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="character-modal-title">
+        <div class="modal-head">
+          <div>
+            <p class="eyebrow">Select Artist</p>
+            <h2 id="character-modal-title">캐릭터 선택</h2>
+          </div>
+          <button class="modal-close-button" id="close-character-modal" aria-label="캐릭터 선택 닫기">×</button>
+        </div>
+        <div class="character-grid" id="character-grid"></div>
+      </div>
+    </div>
+
+    <script src="./lyrics-data.js"></script>
+    <script src="./game.js"></script>
+  </body>
+</html>
